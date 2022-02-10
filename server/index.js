@@ -23,19 +23,41 @@ app.get('/', (req, res) => {
 app.get('/ready', (req, res) => {
   const name = req.query.name;
   const cookie = req.cookies.id;
-  let player_data = fs.readFileSync('players.json');
-  player_data = JSON.parse(player_data);
-  player_data[cookie] = name;
-  player_data = JSON.stringify(player_data);
-  fs.writeFileSync('players.json', player_data);
+  console.log(name, cookie);
+  fs.readFile('players.json', 'utf-8', function (err, data) {
+    if (err) throw err;
+    data = JSON.parse(data);
+    data[cookie] = name;
+    data = JSON.stringify(data);
+    console.log(data);
+    fs.writeFile('players.json', data, function (err) {
+      console.log(data);
+      if (err) throw err;
+    });
+  });
+
+  //let player_data = fs.readFileSync('players.json');
+  //player_data = JSON.parse(player_data);
+  //player_data[cookie] = name;
+  //player_data = JSON.stringify(player_data);
+  //fs.writeFileSync('players.json', player_data);
 });
 
 app.get('/ready/list', (req, res) => {
-  let player_data = fs.readFileSync('players.json');
-  player_data = JSON.parse(player_data);
-  res.send({
-    data: player_data,
+  //let player_data = fs.readFileSync('players.json');
+  //player_data = JSON.parse(player_data);
+
+  fs.readFile('players.json', 'utf-8', function (err, data) {
+    if (err) throw err;
+    data = JSON.parse(data);
+    res.send({
+      data: player_data,
+    });
   });
+
+  //res.send({
+  //data: player_data,
+  //});
 });
 
 app.get('/game', (req, res) => {
@@ -44,13 +66,28 @@ app.get('/game', (req, res) => {
 
 app.get('/game/votetostart', (req, res) => {
   const name = req.query.name;
-  let ready_players = fs.readFileSync('ready.json');
-  ready_players = JSON.parse(ready_players);
-  let ready_player = {
+
+  fs.readFile('ready.json', 'utf-8', function (err, data) {
+    if (err) throw err;
+    data = JSON.parse(data);
+    let ready_player = {
     name: name,
-  };
-  ready_players[Object.keys(ready_players).length] = ready_player;
-  fs.writeFileSync('ready.json', ready_players);
+    }
+    data[Object.keys(data).length] = ready_player;
+    data = JSON.stringify(data);
+    fs.writeFile('players.json', data, function (err) {
+      if (err) throw err;
+    });
+
+
+
+  //let ready_players = fs.readFileSync('ready.json');
+  //ready_players = JSON.parse(ready_players);
+  //let ready_player = {
+   // name: name,
+  //};
+  //ready_players[Object.keys(ready_players).length] = ready_player;
+  //fs.writeFileSync('ready.json', ready_players);
 });
 
 app.get('/game/start', (req, res) => {
