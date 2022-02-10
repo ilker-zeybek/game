@@ -9,6 +9,7 @@ const app = {
   data() {
     return {
       name: null,
+      admin: false,
       player_list: [],
       round_done: false,
       selected_question: 'Have you ever...',
@@ -19,27 +20,33 @@ const app = {
   },
   methods: {
     async select_question() {
-      let response = await fetch(`http://localhost:8000/game/question`, {
+      let response = await fetch(`http://localhost:3000/game/question`, {
         method: 'GET',
+        mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
       });
       response = await response.json();
       this.selected_question = response.selected_question;
     },
     async identify() {
-      let response = await fetch(`http://localhost:8000/game/whoami`, {
+      let response = await fetch(`http://localhost:3000/game/whoami`, {
         method: 'GET',
+        mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
       });
       response = await response.json();
       this.name = response.name;
+      if (this.name == 'ilkerz') {
+        this.admin = true;
+      }
       this.player_list = Object.values(response.player_list);
     },
     async did() {
       let response = await fetch(
-        `http://localhost:8000/game/did?name=${this.name}&question=${this.selected_question}&round=${this.round}`,
+        `http://localhost:3000/game/did?name=${this.name}&question=${this.selected_question}&round=${this.round}`,
         {
           method: 'GET',
+          mode: 'no-cors',
           headers: { 'Content-Type': 'application/json' },
         }
       );
@@ -47,9 +54,10 @@ const app = {
     },
     async didnt() {
       let response = await fetch(
-        `http://localhost:8000/game/didnt?name=${this.name}&question=${this.selected_question}&round=${this.round}`,
+        `http://localhost:3000/game/didnt?name=${this.name}&question=${this.selected_question}&round=${this.round}`,
         {
           method: 'GET',
+          mode: 'no-cors',
           headers: { 'Content-Type': 'application/json' },
         }
       );
@@ -57,9 +65,10 @@ const app = {
     },
     async check_answers() {
       let response = await fetch(
-        `http://localhost:8000/game/round&round=${this.round}`,
+        `http://localhost:3000/game/round&round=${this.round}`,
         {
           method: 'GET',
+          mode: 'no-cors',
           headers: { 'Content-Type': 'application/json' },
         }
       );

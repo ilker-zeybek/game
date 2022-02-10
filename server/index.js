@@ -3,13 +3,12 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const fs = require('fs');
-const { PythonShell } = require('python-shell');
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
-const port = 8000;
+const port = 3000;
 
 app.get('/', (req, res) => {
   const cookie = req.cookies.id;
@@ -41,6 +40,59 @@ app.get('/ready/list', (req, res) => {
 
 app.get('/game', (req, res) => {
   return res.sendFile(path.resolve('../public/game/game.html'));
+});
+
+app.get('/game/votetostart', (req, res) => {
+  const name = req.query.name;
+  let ready_players = fs.readFileSync('ready.json');
+  ready_players = JSON.parse(ready_players);
+  let ready_player = {
+    name: name,
+  };
+  ready_players[Object.keys(ready_players).length] = ready_player;
+  fs.writeFileSync('ready.json', ready_players);
+});
+
+app.get('/game/start', (req, res) => {
+  let player_data = fs.readFileSync('players.json');
+  let ready_players = fs.readFileSync('ready.json');
+  player_data = JSON.parse(player_data);
+  ready_players = JSON.parse(ready_players);
+  let match_count = 0;
+  for (let i; 0 <= i < Object.keys(player_data).length; i++) {
+    for (let j; 0 <= i < Object.keys(ready_players).length; j++) {
+      if (player_data[i] == ready_players[j]) {
+        match_count++;
+      }
+    }
+  }
+  if (match_count == Object.keys(player_data).length) {
+    return res.redirect('/game');
+  }
+});
+
+app.get('/game/end', (req, res) => {
+  fs.copyFileSync('dids.json', '/database/dids.json');
+  fs.copyFileSync('didnts.json', '/database/didnts.json');
+  fs.copyFileSync('players.json', '/database/players.json');
+  fs.copyFileSync('ready.json', '/database/ready.json');
+  let players_data = fs.readFileSync('players.json');
+  let ready_players = fs.readFileSync('ready.json');
+  let dids = fs.readFileSync('dids.json');
+  let didnts = fs.readFileSync('didnts.json');
+  players_data = JSON.parse(players_data);
+  ready_players = JSON.parse(ready_players);
+  dids = JSON.parse(dids);
+  didnts = JSON.parse(didnts);
+  players_data = {};
+  ready_players = {};
+  dids = {};
+  didnts = {};
+  fs.writeFileSync('ready.json', ready_players);
+  fs.writeFileSync('players.json', players_data);
+  fs.writeFileSync('dids.json', dids);
+  fs.writeFileSync('didnts.json', didnts);
+  return res.reditect('/');
 });
 
 app.get('/game/whoami', (req, res) => {

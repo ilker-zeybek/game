@@ -55,7 +55,8 @@ li {
 }
 
 .button-didnt,
-.button-did {
+.button-did,
+.button-end {
   background-color: white;
   border: solid 1px black;
   border-radius: 1rem;
@@ -77,6 +78,11 @@ li {
 .button-did:hover {
   background-color: green;
   color: black;
+}
+
+.button-end:hover {
+  background-color: black;
+  color: red;
 }
 
 input {

@@ -22,7 +22,8 @@
             <input v-model="name" type="text" id="name" name="name">
         </div>
         <div class="ready-button">
-            <input @click="ready" class="button" type="submit" value="Ready?">
+            <input v-if="!player_ready" @click="ready" class="button" type="submit" value="Ready?">
+            <input v-if="player_ready" @click="vote" class="button" type="submit" value="Vote to Start">
         </div>
         <div v-if="message" class="ready-button">
             <span style="color:red">{{message}}</span>

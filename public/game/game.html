@@ -20,6 +20,7 @@
         <div class="choices">
             <input @click="didnt" class="button-didnt" type="submit" value="I didn't.">
             <input @click="did" class="button-did" type="submit" value="I did.">
+            <input v-if='admin' @click="end" class="button-end" type="submit" value="End.">
         </div>
     </div>
     <div v-if="round_done" class="end-game">
@@ -28,6 +29,7 @@
             {{result.name}}: {{result.answer}}
         </li>
     </div>
+
 
     <script src="https://unpkg.com/vue@next"></script>
     <script src="./app.js"></script>
