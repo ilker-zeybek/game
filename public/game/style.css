@@ -1,0 +1,91 @@
+[v-cloak] {
+  display: none !important;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  font-family: 'Poppins', sans-serif;
+}
+
+#app {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-area {
+  margin-right: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+body {
+  line-height: 1;
+}
+
+.name {
+  margin-bottom: 2rem;
+}
+
+.ready-button {
+  margin-bottom: 2rem;
+}
+
+.header {
+  margin-bottom: 2rem;
+}
+
+li {
+  color: green;
+  list-style-type: none;
+  margin-bottom: 1rem;
+}
+
+.button-didnt,
+.button-did {
+  background-color: white;
+  border: solid 1px black;
+  border-radius: 1rem;
+  color: black;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.button-didnt:hover {
+  background-color: red;
+  color: black;
+}
+
+.button-did:hover {
+  background-color: green;
+  color: black;
+}
+
+input {
+  margin-right: 4rem;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
